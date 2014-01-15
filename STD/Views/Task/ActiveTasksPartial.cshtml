@@ -1,0 +1,15 @@
+﻿@model System.Int32
+
+Pending tasks: <span class="badge">@Model</span>
+<script type="text/javascript">
+    Tinycon.setOptions({
+        width: 7,
+        height: 9,
+        font: '10px arial',
+        colour: '#ffffff',
+        background: '#0000FF',
+        fallback: true
+    })
+    Tinycon.setBubble(@Model);
+</script>
+

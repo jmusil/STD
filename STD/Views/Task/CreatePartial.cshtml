@@ -1,0 +1,62 @@
+﻿@model STD.Models.Task
+
+<form id="createForm">
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+    <fieldset>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title)<br>
+            @Html.EditorFor(model => model.Title, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Title)
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description)<br>
+            @Html.EditorFor(model => model.Description, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Description)
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Note)<br>
+            @Html.EditorFor(model => model.Note, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Note)
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DueDate)<br>
+            @Html.EditorFor(model => model.DueDate, new { @class = "form-control"})
+            @Html.ValidationMessageFor(model => model.DueDate)
+        </div>
+        <p>
+            <btn class="btn btn-success" id="btnCreate"><span class="glyphicon glyphicon-plus"></span>Create</btn>
+        </p>
+    </fieldset>
+    </form>
+
+<script type="text/javascript">
+    $(function () {
+        if (!Modernizr.inputtypes.date) {
+            $("#DueDate").datepicker();
+        }
+    });
+    $(function () {
+        jQuery.validator.unobtrusive.parse();
+    });
+
+    $("#btnCreate").click(function () {
+        if (!$("#createForm").valid()) {
+            return false;
+        } else {
+            $("#createDialog").dialog("close");
+            $.ajax({
+                type: "POST",
+                async: "false",
+                url: "/Task/CreatePartial",
+                data: $("#createForm").serialize(),
+                dataType: "json"
+            }).done(function () {
+                window.location.reload();
+            });
+        }
+    });
+</script>

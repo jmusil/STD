@@ -1,0 +1,76 @@
+﻿@using STD.Helpers
+@model IEnumerable<STD.Models.Task>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>@ViewBag.Header</h2>
+
+<table class="table table-hover">
+    <thead>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Note)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DueDate)
+        </th> 
+        <th>
+            @Html.DisplayNameFor(model => model.Finished)
+        </th>
+        <th>Actions</th>
+    </thead>
+
+@foreach (var item in Model) {
+    <tr>
+        <td title="@item.Title">
+            @Html.DisplayFor(modelItem => item.Title)
+            
+        </td>
+        <td title="@item.Description">
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td title="@item.Note">
+            @Html.LengthyText(item.Note, 25)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DueDate)
+        </td>
+        <td>
+            @if (item.Finished)
+            {
+                <span class="glyphicon glyphicon-ok"></span>
+            }
+            else
+            {
+                <span class="glyphicon glyphicon-minus"></span>
+            }
+        </td>
+        <td>
+            @if (item.Finished)
+            {
+                <span class="reopenTask btn btn-xs btn-default" id="@item.Id">Reopen</span>
+            }
+            else
+            {
+                <span class="finishTask btn btn-xs btn-default" id="@item.Id">Done</span>
+            } |
+            <span class="editTask btn btn-xs btn-default" id="@item.Id">Edit</span> |
+            <span class="deleteTask btn btn-xs btn-default" id="@item.Id">Delete</span>
+        </td>
+    </tr>
+}
+
+</table>
+<div id="finishDialog"></div>
+<div id="editDialog"></div>
+<div id="deleteDialog"></div>
+<div id="reopenDialog"></div>
+
+@Html.Action("CreateButtonPartial")
